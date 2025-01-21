@@ -1,0 +1,22 @@
+package entities;
+
+import java.time.LocalDateTime;
+
+public class Consulta {
+	
+	Paciente paciente;
+	LocalDateTime data;
+	Double valor;
+	String procedimento;
+	Status status;
+	
+	public Consulta(Paciente paciente, LocalDateTime data, Double valor, String procedimento, Status status) {
+		this.paciente = paciente;
+		this.data = data;
+		this.valor = valor;
+		this.procedimento = procedimento;
+		this.status = status;
+	}
+	
+	
+} 

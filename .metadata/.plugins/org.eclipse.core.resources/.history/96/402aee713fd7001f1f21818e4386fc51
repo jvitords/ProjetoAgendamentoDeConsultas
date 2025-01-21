@@ -1,0 +1,30 @@
+package entities;
+
+public class Paciente {
+
+		String nome;
+		Integer cpf;
+		
+		public Paciente(String nomeString, Integer cpfInteger) {
+			this.nome = nomeString;
+			this.cpf = cpfInteger;
+		}
+
+		public String getNome() {
+			return nome;
+		}
+
+		public void setNome(String nomeString) {
+			this.nome = nomeString;
+		}
+
+		public Integer getCpf() {
+			return cpf;
+		}
+
+		public void setCpf(Integer cpfInteger) {
+			this.cpf = cpfInteger;
+		}
+		
+		
+}

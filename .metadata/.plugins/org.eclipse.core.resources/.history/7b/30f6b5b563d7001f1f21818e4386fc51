@@ -1,0 +1,13 @@
+package service;
+
+public class ServicoDePagamentoComConvenio implements ServicoDePagamento{
+
+	public ServicoDePagamentoComConvenio() {
+	}
+
+	@Override
+	public Double calcularValorDaConsulta(Double valorDoServico) {
+		
+		return valorDoServico - valorDoServico * 0.2;
+	}
+}

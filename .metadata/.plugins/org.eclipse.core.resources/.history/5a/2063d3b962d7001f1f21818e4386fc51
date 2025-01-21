@@ -1,0 +1,12 @@
+package service;
+
+public class PagamentoSemConvenio implements ServicoDePagamento{
+
+	
+	
+	@Override
+	public Double calcularValorDaConsulta(Double valorDoServico) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

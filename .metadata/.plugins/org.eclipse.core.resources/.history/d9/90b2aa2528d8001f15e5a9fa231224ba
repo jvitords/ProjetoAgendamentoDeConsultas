@@ -1,0 +1,15 @@
+package service;
+
+import entities.Consulta;
+
+public class ServicoDePagamentoComConvenio implements ServicoDePagamento{
+
+	Consulta consulta;
+	public ServicoDePagamentoComConvenio() {
+	}
+
+	@Override
+	public void calcularValorDaConsulta(Double valorDoServico) {
+		consulta.setValor(valorDoServico - valorDoServico * 0.2);
+	}
+}

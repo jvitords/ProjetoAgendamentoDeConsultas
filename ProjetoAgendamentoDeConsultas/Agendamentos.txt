@@ -1,0 +1,7 @@
+João Vitor,400381518,100.0,Manutenção,com
+Luis Guilherme,400381528,180.0,Manutenção e Limpeza,com
+Claudete,246905,100.0,Restauração,com
+Sebastião,195155,100.0,Limpeza,sem
+Antônia,654321,100.0,Protese,sem
+
+
