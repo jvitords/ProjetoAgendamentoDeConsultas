@@ -3,6 +3,7 @@ package entities;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import service.ServicoDePagamento;
@@ -25,36 +26,57 @@ public class Agenda {
 		this.listaDeConsultas = listaDeConsultas;
 	}
 
-	public void mostrarTodasAsConsultas() { // método para ler todas as consultas registradas no meu arquivo txt
+	public void mostrarTodasAsConsultas(List<Consulta> lista) { // método para ler todas as consultas registradas no meu arquivo txt
 		
 		System.out.println("----- CONSULTAS AGENDADAS -----\n");
 		// abrir o arquivo e ler as informações
 		try(BufferedReader leitorDoArquivo = new BufferedReader(new FileReader("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt"))){
-			
+			// instanciar um "Paciente" e "Consulta" para mostrar as informações que estão na agenda 
 			String lerLinha = leitorDoArquivo.readLine();
 			while (lerLinha != null) {
-				// instanciar um "Paciente" e "Consulta" para mostrar as informações que estão na agenda 
+				
 				String [] separadorDasInformacoes = lerLinha.split(",");
 				Paciente paciente = new Paciente(separadorDasInformacoes[0], Integer.parseInt(separadorDasInformacoes[1]));
+				
 				// encontrar um jeito de pegar a data e horário do arquivo txt(que estão formatadas) para conseguir instanciar ela e criar a "Consulta"
+				String dataRecebida = separadorDasInformacoes[2];
+				DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+				LocalDateTime data = LocalDateTime.parse(dataRecebida, formatoDaData);
 				
+				// procedimento escolhido 
+				String procedimento = separadorDasInformacoes[3];
 				
-				// modelo de como posso mostrar as informações no console depois
-				for(Consulta consulta : listaDeConsultas) {
-					System.out.println( consulta.getPaciente().getNome() + " - " + consulta.getProcedimento() + " - " + consulta.getData() + " - R$" + consulta.getValor());
+				// valor do procedimento 
+				Double valor = Double.parseDouble(separadorDasInformacoes[4]);
+				
+				// analisar se a consulta é de convênio ou particular
+				String tipoDaConsultaString = separadorDasInformacoes[5];
+				TipoDoCliente tipo = null;
+				if(tipoDaConsultaString.toLowerCase().charAt(0) == 'c') {
+					tipo = TipoDoCliente.COM_CONVENIO;
 				}
+				else {
+					tipo = TipoDoCliente.SEM_CONVENIO;
+				}
+				Consulta consulta = new Consulta(paciente, data, valor, procedimento, Status.AGENDADO, tipo);
+				lista.add(consulta);
+			}
+			
+			// modelo de como posso mostrar as informações no console depois
+			for(Consulta consulta : lista) {
+				System.out.println( consulta.getPaciente().getNome() + " - " + consulta.getProcedimento() + " - " + consulta.getData() + " - R$" + consulta.getValor());
 			}
 		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
+			System.out.println("Ocorreu essa exceção: " + e);
 		}
 		
 	}
 	
-	public void adicionarNovaConsulta() {
+	public void adicionarNovaConsulta(List<Consulta> lista) {
 		Consulta consulta = new Consulta(new Paciente("João Vitor", 400381518), LocalDateTime.now(), 100.0, "Manutenção", Status.AGENDADO, TipoDoCliente.SEM_CONVENIO);
 		TipoDoCliente tipo = consulta.getTipoDoCliente();
-		listaDeConsultas.add(consulta);
 		
 		switch (tipo){
 		case COM_CONVENIO: 
@@ -68,5 +90,6 @@ public class Agenda {
 		default:
 			System.out.println("FIM");
 		}
+		lista.add(consulta);
 	}
 }

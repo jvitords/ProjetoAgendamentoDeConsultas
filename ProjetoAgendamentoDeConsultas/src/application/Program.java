@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -24,11 +25,13 @@ public class Program {
 		System.out.println("======== AGENDAMENTO DE CONSULTAS ========\n");
 		
 		Agenda agenda = new Agenda(listDeConsultas);
-		agenda.adicionarNovaConsulta();
-
+		agenda.adicionarNovaConsulta(listDeConsultas);
 		
+		//agenda.mostrarTodasAsConsultas(listDeConsultas);
 		
-		
-		
+		for(Consulta consulta : listDeConsultas) {
+			System.out.println( consulta.getPaciente().getNome() + " - " + consulta.getProcedimento() + " - " + consulta.getData() + " - R$" + consulta.getValor());
+		}
+		System.out.println("))))");
 	}
 }

@@ -1,7 +1,7 @@
-João Vitor,400381518,100.0,Manutenção,com
-Luis Guilherme,400381528,180.0,Manutenção e Limpeza,com
-Claudete,246905,100.0,Restauração,com
-Sebastião,195155,100.0,Limpeza,sem
-Antônia,654321,100.0,Protese,sem
+João Vitor,400381518,10/02/2025 10:30,Manutenção,100.0,convenio
+Luis Guilherme,400381528,04/02/2025 18:10,Manutenção e Limpeza,180.0,convenio
+Claudete,246905,16/02/2025 08:45,Restauração,100.0,convenio
+Sebastião,195155,30/01/2025 17:50,Limpeza,100.0,particular
+
 
 
