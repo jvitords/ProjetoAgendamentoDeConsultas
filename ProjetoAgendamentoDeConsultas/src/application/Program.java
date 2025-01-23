@@ -19,19 +19,15 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		Scanner digitar = new Scanner(System.in);
-		List<Consulta> listDeConsultas = new ArrayList<Consulta>();
+		//Scanner digitar = new Scanner(System.in);
+		//List<Consulta> listDeConsultas = new ArrayList<Consulta>();
 		
 		System.out.println("======== AGENDAMENTO DE CONSULTAS ========\n");
+		Agenda.mostrarTodasAsConsultas();
+		//Agenda agenda = new Agenda(listDeConsultas);
+		//agenda.registrarNovaConsulta();
+		//agenda.mostrarTodasAsConsultas(listDeConsultas); // pensar em como deixar isso static, pq não é necessário inicializar para ver as consultas
+		// criar um método para agendar novas consultas e registrar no arquivo txt
 		
-		Agenda agenda = new Agenda(listDeConsultas);
-		agenda.adicionarNovaConsulta(listDeConsultas);
-		
-		//agenda.mostrarTodasAsConsultas(listDeConsultas);
-		
-		for(Consulta consulta : listDeConsultas) {
-			System.out.println( consulta.getPaciente().getNome() + " - " + consulta.getProcedimento() + " - " + consulta.getData() + " - R$" + consulta.getValor());
-		}
-		System.out.println("))))");
 	}
 }

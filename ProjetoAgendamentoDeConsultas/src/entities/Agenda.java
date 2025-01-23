@@ -1,10 +1,14 @@
 package entities;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import service.ServicoDePagamento;
 import service.ServicoDePagamentoComConvenio;
@@ -12,7 +16,7 @@ import service.ServicoDePagamentoSemConvenio;
 
 public class Agenda {
 	
-	static List<Consulta> listaDeConsultas;
+	private List<Consulta> listaDeConsultas;
 	
 	public Agenda(List<Consulta> listaDeConsultas) {
 		this.listaDeConsultas = listaDeConsultas;
@@ -26,7 +30,9 @@ public class Agenda {
 		this.listaDeConsultas = listaDeConsultas;
 	}
 
-	public void mostrarTodasAsConsultas(List<Consulta> lista) { // método para ler todas as consultas registradas no meu arquivo txt
+	public static void mostrarTodasAsConsultas() { // método para ler todas as consultas registradas no meu arquivo txt
+		
+		List<Consulta> lista = new ArrayList<Consulta>();
 		
 		System.out.println("----- CONSULTAS AGENDADAS -----\n");
 		// abrir o arquivo e ler as informações
@@ -34,6 +40,8 @@ public class Agenda {
 			// instanciar um "Paciente" e "Consulta" para mostrar as informações que estão na agenda 
 			String lerLinha = leitorDoArquivo.readLine();
 			while (lerLinha != null) {
+				
+				lerLinha = lerLinha.trim(); // limpa espaços vazios no arquivo txt
 				
 				String [] separadorDasInformacoes = lerLinha.split(",");
 				Paciente paciente = new Paciente(separadorDasInformacoes[0], Integer.parseInt(separadorDasInformacoes[1]));
@@ -58,38 +66,83 @@ public class Agenda {
 				else {
 					tipo = TipoDoCliente.SEM_CONVENIO;
 				}
-				Consulta consulta = new Consulta(paciente, data, valor, procedimento, Status.AGENDADO, tipo);
+				Consulta consulta = new Consulta(paciente, data, valor, procedimento, Status.AGENDADO, tipo); // dps preciso arrumar isso, pois está colocando todas com status de agendada
 				lista.add(consulta);
+				lerLinha = leitorDoArquivo.readLine();	
+				
 			}
-			
 			// modelo de como posso mostrar as informações no console depois
-			for(Consulta consulta : lista) {
-				System.out.println( consulta.getPaciente().getNome() + " - " + consulta.getProcedimento() + " - " + consulta.getData() + " - R$" + consulta.getValor());
+			DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			for(Consulta consulta1 : lista) {
+				System.out.println( consulta1.getPaciente().getNome() + " - " + consulta1.getProcedimento() + " - " + consulta1.getData().format(formatoDaData) + " - R$" + consulta1.getValor());
 			}
 		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
 			System.out.println("Ocorreu essa exceção: " + e);
 		}
-		
 	}
 	
-	public void adicionarNovaConsulta(List<Consulta> lista) {
-		Consulta consulta = new Consulta(new Paciente("João Vitor", 400381518), LocalDateTime.now(), 100.0, "Manutenção", Status.AGENDADO, TipoDoCliente.SEM_CONVENIO);
-		TipoDoCliente tipo = consulta.getTipoDoCliente();
+	public void registrarNovaConsulta() { // método para registrar novas consultas
 		
-		switch (tipo){
-		case COM_CONVENIO: 
-			ServicoDePagamento servicoDePagamento = new ServicoDePagamentoComConvenio(consulta);
-			servicoDePagamento.calcularValorDaConsulta(consulta.getValor());
-			break;
-		case SEM_CONVENIO:
-			ServicoDePagamento servicoDePagamento2 = new ServicoDePagamentoSemConvenio(consulta);
-			servicoDePagamento2.calcularValorDaConsulta(consulta.getValor());
-			break;
-		default:
-			System.out.println("FIM");
+		try { // receber os dados da consulta e inicialzar a mesma
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Nome do paciente: ");
+			String nomeDoPaciente = scanner.nextLine();
+			System.out.print("CPF do paciente: ");
+			Integer cpfDoPaciente = scanner.nextInt();
+			scanner.nextLine();
+			
+			DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			System.out.print("Data e horário da consulta: (dd/MM/yyyy HH:mm)");
+			String dataRecebida = scanner.nextLine();
+			LocalDateTime dataDoAgendamento = LocalDateTime.parse(dataRecebida, formatoDaData);
+			
+			System.out.print("Valor da consulta: R$");
+			Double valorDaConsulta = scanner.nextDouble();
+			scanner.nextLine();
+			
+			System.out.print("Procedimento: ");
+			String procedimento = scanner.nextLine();
+			
+			Status status = Status.AGENDADO;
+
+			System.out.print("Tipo da consulta: (particular/convênio)");
+			String tipoDaConsulta = scanner.nextLine();
+			
+			Consulta consulta = null;
+			
+			if (tipoDaConsulta.toLowerCase().charAt(0) == 'c') { // consulta com convênio 
+				Consulta consultaConvenio = new Consulta(new Paciente(nomeDoPaciente, cpfDoPaciente), dataDoAgendamento, valorDaConsulta, procedimento, status, TipoDoCliente.COM_CONVENIO);
+				ServicoDePagamentoComConvenio servicoDePagamento = new ServicoDePagamentoComConvenio(consultaConvenio);
+				servicoDePagamento.calcularValorDaConsulta(consultaConvenio.getValor());
+				consulta = consultaConvenio;
+			} 
+			else if (tipoDaConsulta.toLowerCase().charAt(0) == 'p') { // consulta particular
+				Consulta consultaParticular = new Consulta(new Paciente(nomeDoPaciente, cpfDoPaciente), dataDoAgendamento, valorDaConsulta, procedimento, status, TipoDoCliente.SEM_CONVENIO);
+				ServicoDePagamentoSemConvenio servicoDePagamento2 = new ServicoDePagamentoSemConvenio(consultaParticular);
+				servicoDePagamento2.calcularValorDaConsulta(consultaParticular.getValor());
+				consulta = consultaParticular;
+			} 
+			else {
+				System.out.println("Não foi possível inicializar a consulta, veja se os dados foram digitados corretamente!");
+			}
+			
+			try (// registrar essa nova consulta no nosso arquivo txt
+			BufferedWriter registrarNoArquivo = new BufferedWriter(new FileWriter("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt", true))) {
+				String registrarConsulta = consulta.getPaciente().getNome() + "," + consulta.getPaciente().getCpf() + "," + consulta.getData().format(formatoDaData) + "," + 
+				consulta.getProcedimento() + "," + consulta.getValor() + "," + consulta.getTipoDoCliente().getTipo();
+				registrarNoArquivo.newLine();
+				registrarNoArquivo.write(registrarConsulta);
+				System.out.println("*** Consulta registrada com sucesso! ***");
+			}
+			
+			scanner.close();
+		} 
+		catch (Exception e) {
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
-		lista.add(consulta);
+		
+		
 	}
 }
