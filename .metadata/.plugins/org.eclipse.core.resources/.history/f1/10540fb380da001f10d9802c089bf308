@@ -2,18 +2,14 @@ package entities;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import exceptions.DomainExceptions;
 import service.ServicoDePagamento;
 import service.ServicoDePagamentoComConvenio;
 import service.ServicoDePagamentoSemConvenio;
@@ -81,17 +77,13 @@ public class Agenda {
 				System.out.println( consulta1.getPaciente().getNome() + " - " + consulta1.getProcedimento() + " - " + consulta1.getData().format(formatoDaData) + " - R$" + consulta1.getValor());
 			}
 		}
-		catch (DateTimeParseException erroAoReceberDataDoArquivoTXT) {
-			System.out.println("ERRO: " + erroAoReceberDataDoArquivoTXT);
-			throw new DomainExceptions("Erro ao receber a data do arquivo TXT");
-		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
-			System.out.println("Ocorreu uma exceção geral: " + e);
+			System.out.println("Ocorreu essa exceção: " + e);
 		}
 	}
 	
-	public static void registrarNovaConsulta() { // método para registrar novas consultas
+	public void registrarNovaConsulta() { // método para registrar novas consultas
 		
 		try { // receber os dados da consulta e inicialzar a mesma
 			Scanner scanner = new Scanner(System.in);
@@ -144,22 +136,13 @@ public class Agenda {
 				registrarNoArquivo.write(registrarConsulta);
 				System.out.println("*** Consulta registrada com sucesso! ***");
 			}
+			
 			scanner.close();
 		} 
-		catch (InputMismatchException erroAoDigitarInt) {
-			System.out.println("Aconteceu uma exceção ao receber os dados do CPF: " + erroAoDigitarInt);
-			throw new DomainExceptions("Erro ao digitar CPF");
-		}
-		catch (DateTimeParseException erroAoDigitarData) {
-			System.out.println("Aconteceu uma exceção ao receber a data da consulta: " + erroAoDigitarData);
-			throw new DomainExceptions("Erro ao digitar a data");
-		}
-		catch (FileNotFoundException arquivoNaoEncontrado) {
-			System.out.println("Aconteceu uma exceção ao procurar o arquivo da consulta: " + arquivoNaoEncontrado);
-			throw new DomainExceptions("Erro ao procurar arquivo");
-		}
 		catch (Exception e) {
-			System.out.println("Aconteceu uma exceção geral: " + e);
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
+		
+		
 	}
 }

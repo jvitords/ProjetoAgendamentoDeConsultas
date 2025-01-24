@@ -87,7 +87,7 @@ public class Agenda {
 		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
-			System.out.println("Ocorreu uma exceção geral: " + e);
+			System.out.println("Ocorreu essa exceção: " + e);
 		}
 	}
 	
@@ -137,13 +137,14 @@ public class Agenda {
 			}
 			
 			try (// registrar essa nova consulta no nosso arquivo txt
-			BufferedWriter registrarNoArquivo = new BufferedWriter(new FileWriter("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt", true))) {
+			BufferedWriter registrarNoArquivo = new BufferedWriter(new FileWriter("C:\\qUsers\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt", true))) {
 				String registrarConsulta = consulta.getPaciente().getNome() + "," + consulta.getPaciente().getCpf() + "," + consulta.getData().format(formatoDaData) + "," + 
 				consulta.getProcedimento() + "," + consulta.getValor() + "," + consulta.getTipoDoCliente().getTipo();
 				registrarNoArquivo.newLine();
 				registrarNoArquivo.write(registrarConsulta);
 				System.out.println("*** Consulta registrada com sucesso! ***");
 			}
+			
 			scanner.close();
 		} 
 		catch (InputMismatchException erroAoDigitarInt) {
@@ -156,10 +157,12 @@ public class Agenda {
 		}
 		catch (FileNotFoundException arquivoNaoEncontrado) {
 			System.out.println("Aconteceu uma exceção ao procurar o arquivo da consulta: " + arquivoNaoEncontrado);
-			throw new DomainExceptions("Erro ao procurar arquivo");
+			throw new DomainExceptions("Erro ao digitar a data");
 		}
 		catch (Exception e) {
-			System.out.println("Aconteceu uma exceção geral: " + e);
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
+		
+		
 	}
 }

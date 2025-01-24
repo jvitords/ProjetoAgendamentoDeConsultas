@@ -87,7 +87,7 @@ public class Agenda {
 		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
-			System.out.println("Ocorreu uma exceção geral: " + e);
+			System.out.println("Ocorreu essa exceção: " + e);
 		}
 	}
 	
@@ -144,6 +144,7 @@ public class Agenda {
 				registrarNoArquivo.write(registrarConsulta);
 				System.out.println("*** Consulta registrada com sucesso! ***");
 			}
+			
 			scanner.close();
 		} 
 		catch (InputMismatchException erroAoDigitarInt) {

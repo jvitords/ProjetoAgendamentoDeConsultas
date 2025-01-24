@@ -23,9 +23,9 @@ public class Program {
 		//List<Consulta> listDeConsultas = new ArrayList<Consulta>();
 		
 		System.out.println("======== AGENDAMENTO DE CONSULTAS ========\n");
-		//Agenda.mostrarTodasAsConsultas();
+		Agenda.mostrarTodasAsConsultas();
 		//Agenda agenda = new Agenda(listDeConsultas);
-		Agenda.registrarNovaConsulta();
+		//agenda.registrarNovaConsulta();
 		//agenda.mostrarTodasAsConsultas(listDeConsultas); // pensar em como deixar isso static, pq não é necessário inicializar para ver as consultas
 		// criar um método para agendar novas consultas e registrar no arquivo txt
 		

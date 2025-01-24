@@ -2,7 +2,6 @@ package entities;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
@@ -87,7 +86,7 @@ public class Agenda {
 		}
 		catch (Exception e) {
 			// depois preciso criar excessões personalizadas
-			System.out.println("Ocorreu uma exceção geral: " + e);
+			System.out.println("Ocorreu essa exceção: " + e);
 		}
 	}
 	
@@ -144,22 +143,19 @@ public class Agenda {
 				registrarNoArquivo.write(registrarConsulta);
 				System.out.println("*** Consulta registrada com sucesso! ***");
 			}
+			
 			scanner.close();
 		} 
-		catch (InputMismatchException erroAoDigitarInt) {
-			System.out.println("Aconteceu uma exceção ao receber os dados do CPF: " + erroAoDigitarInt);
-			throw new DomainExceptions("Erro ao digitar CPF");
+		catch (InputMismatchException e) {
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
-		catch (DateTimeParseException erroAoDigitarData) {
-			System.out.println("Aconteceu uma exceção ao receber a data da consulta: " + erroAoDigitarData);
-			throw new DomainExceptions("Erro ao digitar a data");
-		}
-		catch (FileNotFoundException arquivoNaoEncontrado) {
-			System.out.println("Aconteceu uma exceção ao procurar o arquivo da consulta: " + arquivoNaoEncontrado);
-			throw new DomainExceptions("Erro ao procurar arquivo");
+		catch (DateTimeParseException e) {
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
 		catch (Exception e) {
-			System.out.println("Aconteceu uma exceção geral: " + e);
+			System.out.println("Aconteceu uma exceção ao receber os dados da consulta: " + e);
 		}
+		
+		
 	}
 }
