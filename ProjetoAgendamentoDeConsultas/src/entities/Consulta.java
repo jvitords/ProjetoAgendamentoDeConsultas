@@ -2,7 +2,7 @@ package entities;
 
 import java.time.LocalDateTime;
 
-public class Consulta {
+public class Consulta  {
 	
 	private Paciente paciente;
 	private LocalDateTime data;
@@ -69,6 +69,8 @@ public class Consulta {
 	public void setTipoDoCliente(TipoDoCliente tipoDoCliente) {
 		this.tipoDoCliente = tipoDoCliente;
 	}
+
+	
 	
 	
 } 

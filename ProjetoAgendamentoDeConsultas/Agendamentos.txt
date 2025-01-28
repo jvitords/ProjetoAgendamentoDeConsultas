@@ -1,5 +1,5 @@
-João Vitor,400381518,10/02/2025 10:30,Manutenção,100.0,convênio
-Luis Guilherme,400381528,04/02/2025 18:10,Manutenção e Limpeza,180.0,convênio
-Claudete,246905,16/02/2025 08:45,Restauração,100.0,convenio
-Sebastião,195155,30/01/2025 17:50,Limpeza,100.0,particular
-TesteFinal,999999,24/01/2025 19:44,Aparelho e Limpeza,400.0,convênio
+João Vitor,400381518,10/02/2025 10:30,Manutenção,100.0,Convênio,Agendado
+Luis Guilherme,400381528,04/02/2025 18:10,Manutenção e Limpeza,180.0,Convênio,Agendado
+Claudete,246905,16/02/2025 08:45,Restauração,100.0,Convênio,Agendado
+Sebastião,195155,30/01/2025 17:50,Limpeza,100.0,Particular,Agendado
+TesteFinal,999999,24/01/2025 19:44,Aparelho e Limpeza,400.0,Convênio,Agendado

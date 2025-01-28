@@ -1,6 +1,0 @@
-package service;
-
-public interface ServicoDePagamento {
-	
-	Double calcularValorDaConsulta(Double valorDoServico);
-}

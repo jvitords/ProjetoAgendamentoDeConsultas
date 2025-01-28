@@ -1,7 +1,7 @@
 package entities;
 
 public enum TipoDoCliente {
-	COM_CONVENIO("convênio"), SEM_CONVENIO("particular");
+	COM_CONVENIO("Convênio"), SEM_CONVENIO("Particular");
 	
 	private String tipo;
 

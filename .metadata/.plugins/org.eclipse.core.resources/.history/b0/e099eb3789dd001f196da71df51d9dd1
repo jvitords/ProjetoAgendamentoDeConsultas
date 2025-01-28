@@ -1,0 +1,33 @@
+package service;
+
+import java.util.Collections;
+import java.util.List;
+
+import entities.Agenda;
+import entities.Consulta;
+import entities.Status;
+
+public class FiltrosEOrdenacao {
+
+	public static List<Consulta> ordenarPeloNomeDoPaciente() { // ordenar todas as consultas pelo nome do paciente		
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		Collections.sort(lista, (p1, p2) -> p1.getPaciente().getNome().compareTo(p2.getPaciente().getNome())); // fazendo o compareTo usando Lambda
+		return lista;
+	}
+	
+	public static List<Consulta> ordenarPelaDataDeAtendimento() { // ordenar pela data de atendimento 
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		Collections.sort(lista, (c1, c2) -> c1.getData().compareTo(c2.getData())); // fazendo o compareTo usando Lambda
+		return lista; 
+	}
+	
+	public static Double somaTotalDoValorDasConsultasConcluidas() { // valor total das consultas concluidas
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		return lista.stream().filter(c -> c.getStatus() == Status.CONCLUIDO).map(Consulta::getValor).reduce(0.0, (a, b) -> a + b);
+	}
+
+	public static List<Consulta> filtrarConsultasQueDevemSerAtendidas() {
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		lista.stream().filter(c -> c.getStatus() == Status.AGENDADO).collect(null)
+	}
+}

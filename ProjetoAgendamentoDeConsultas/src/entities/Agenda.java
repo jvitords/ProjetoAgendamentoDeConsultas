@@ -34,11 +34,10 @@ public class Agenda {
 		this.listaDeConsultas = listaDeConsultas;
 	}
 
-	public static void mostrarTodasAsConsultas() { // método para ler todas as consultas registradas no meu arquivo txt
+	public static List<Consulta> mostrarTodasAsConsultas() { // método para ler todas as consultas registradas no meu arquivo txt
 		
 		List<Consulta> lista = new ArrayList<Consulta>();
 		
-		System.out.println("----- CONSULTAS AGENDADAS -----\n");
 		// abrir o arquivo e ler as informações
 		try(BufferedReader leitorDoArquivo = new BufferedReader(new FileReader("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt"))){
 			// instanciar um "Paciente" e "Consulta" para mostrar as informações que estão na agenda 
@@ -50,7 +49,7 @@ public class Agenda {
 				String [] separadorDasInformacoes = lerLinha.split(",");
 				Paciente paciente = new Paciente(separadorDasInformacoes[0], Integer.parseInt(separadorDasInformacoes[1]));
 				
-				// encontrar um jeito de pegar a data e horário do arquivo txt(que estão formatadas) para conseguir instanciar ela e criar a "Consulta"
+				// data e horário da consulta
 				String dataRecebida = separadorDasInformacoes[2];
 				DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 				LocalDateTime data = LocalDateTime.parse(dataRecebida, formatoDaData);
@@ -70,25 +69,42 @@ public class Agenda {
 				else {
 					tipo = TipoDoCliente.SEM_CONVENIO;
 				}
-				Consulta consulta = new Consulta(paciente, data, valor, procedimento, Status.AGENDADO, tipo); // dps preciso arrumar isso, pois está colocando todas com status de agendada
+				
+				// status da consulta
+				Status status = null;
+				String statusString = separadorDasInformacoes[6];
+				
+				
+				if(statusString.equals("Agendado")) {
+					status = Status.AGENDADO;
+				}
+				else if (statusString.equals("Cancelado")) {
+					status = Status.CANCELADO;
+				}
+				else {
+					status = Status.CONCLUIDO;
+				}
+				
+				Consulta consulta = new Consulta(paciente, data, valor, procedimento, status, tipo); // dps preciso arrumar isso, pois está colocando todas com status de agendada
 				lista.add(consulta);
 				lerLinha = leitorDoArquivo.readLine();	
 				
 			}
-			// modelo de como posso mostrar as informações no console depois
+			// modelo de mostrar as informações no console
 			DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-			for(Consulta consulta1 : lista) {
-				System.out.println( consulta1.getPaciente().getNome() + " - " + consulta1.getProcedimento() + " - " + consulta1.getData().format(formatoDaData) + " - R$" + consulta1.getValor());
-			}
+			/*for(Consulta consulta1 : lista) {
+				System.out.println( consulta1.getPaciente().getNome() + " - " + consulta1.getProcedimento() + " - " + consulta1.getData().format(formatoDaData) + 
+						" - " + consulta1.getTipoDoCliente().getTipo() + " - R$" + consulta1.getValor());
+			}*/
 		}
 		catch (DateTimeParseException erroAoReceberDataDoArquivoTXT) {
 			System.out.println("ERRO: " + erroAoReceberDataDoArquivoTXT);
 			throw new DomainExceptions("Erro ao receber a data do arquivo TXT");
 		}
 		catch (Exception e) {
-			// depois preciso criar excessões personalizadas
 			System.out.println("Ocorreu uma exceção geral: " + e);
 		}
+		return lista;
 	}
 	
 	public static void registrarNovaConsulta() { // método para registrar novas consultas

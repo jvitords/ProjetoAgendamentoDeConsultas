@@ -1,0 +1,24 @@
+package service;
+
+import java.util.Collections;
+import java.util.List;
+
+import entities.Agenda;
+import entities.Consulta;
+
+public class FiltrosEOrdenacao {
+
+	public static List<Consulta> ordenarPeloNomeDoPaciente() { // ordenar todas as consultas pelo nome do paciente
+		
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		Collections.sort(lista, (p1, p2) -> p1.getPaciente().getNome().compareTo(p2.getPaciente().getNome())); // fazendo o compareTo usando Lambda
+		return lista;
+	}
+	
+	public static List<Consulta> ordenarPelaDataDeAtendimento() { // ordenar pela data de atendimento 
+		
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		Collections.sort(lista, (c1, c2) -> c1.getData().compareTo(c2.getData())); // fazendo o compareTo usando Lambda
+		return lista; 
+	}
+}

@@ -1,0 +1,17 @@
+package service;
+
+import java.util.List;
+
+import entities.Agenda;
+import entities.Consulta;
+
+public class Atendimento {
+
+	public static Consulta atenderConsulta() {
+		
+		List<Consulta> lista = FiltrosEOrdenacao.filtrarConsultasQueDevemSerAtendidas();
+		int i = 1;
+		lista.forEach(c -> System.out.println(i + "- " + ));
+		
+	}
+}

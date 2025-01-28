@@ -1,0 +1,19 @@
+package service;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import entities.Agenda;
+import entities.Consulta;
+
+public class Atendimento {
+
+	public static Consulta atenderConsulta() {
+		
+		List<Consulta> lista = FiltrosEOrdenacao.filtrarConsultasQueDevemSerAtendidas();
+		DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		int i = 1;
+		lista.forEach(c -> System.out.println(i + "- " + c.getPaciente().getNome() + ", " + c.getProcedimento() + " - " + c.getData().format(formatoDaData) + " - " + c.getTipoDoCliente().getTipo()));
+		
+	}
+}

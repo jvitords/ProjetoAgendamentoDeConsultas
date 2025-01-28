@@ -1,0 +1,32 @@
+package service;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Consulta;
+
+public class FiltrosEOrdenacao {
+
+	public List<Consulta> ordenarPeloNomeDoPaciente() {
+		
+		List<Consulta> lista = new ArrayList<Consulta>();
+		
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(""))){
+			
+			String [] lerLinha = arquivo.readLine().split(",");
+			
+			while (lerLinha != null) {
+				String nomeDoPaciente = lerLinha[0];
+				
+			}
+			
+		} 
+		catch (Exception e) {
+			
+		}
+		
+		return lista;
+	}
+}
