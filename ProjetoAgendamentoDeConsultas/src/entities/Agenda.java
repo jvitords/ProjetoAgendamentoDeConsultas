@@ -47,7 +47,7 @@ public class Agenda {
 				lerLinha = lerLinha.trim(); // limpa espaços vazios no arquivo txt
 				
 				String [] separadorDasInformacoes = lerLinha.split(",");
-				Paciente paciente = new Paciente(separadorDasInformacoes[0], Integer.parseInt(separadorDasInformacoes[1]));
+				Paciente paciente = new Paciente(separadorDasInformacoes[0], Long.parseLong(separadorDasInformacoes[1]));
 				
 				// data e horário da consulta
 				String dataRecebida = separadorDasInformacoes[2];
@@ -91,8 +91,8 @@ public class Agenda {
 				
 			}
 			// modelo de mostrar as informações no console
-			DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-			/*for(Consulta consulta1 : lista) {
+			/*DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+			for(Consulta consulta1 : lista) {
 				System.out.println( consulta1.getPaciente().getNome() + " - " + consulta1.getProcedimento() + " - " + consulta1.getData().format(formatoDaData) + 
 						" - " + consulta1.getTipoDoCliente().getTipo() + " - R$" + consulta1.getValor());
 			}*/
@@ -114,7 +114,7 @@ public class Agenda {
 			System.out.print("Nome do paciente: ");
 			String nomeDoPaciente = scanner.nextLine();
 			System.out.print("CPF do paciente: ");
-			Integer cpfDoPaciente = scanner.nextInt();
+			Long cpfDoPaciente = scanner.nextLong();
 			scanner.nextLine();
 			
 			DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -155,7 +155,7 @@ public class Agenda {
 			try (// registrar essa nova consulta no nosso arquivo txt
 			BufferedWriter registrarNoArquivo = new BufferedWriter(new FileWriter("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt", true))) {
 				String registrarConsulta = consulta.getPaciente().getNome() + "," + consulta.getPaciente().getCpf() + "," + consulta.getData().format(formatoDaData) + "," + 
-				consulta.getProcedimento() + "," + consulta.getValor() + "," + consulta.getTipoDoCliente().getTipo();
+				consulta.getProcedimento() + "," + consulta.getValor() + "," + consulta.getTipoDoCliente().getTipo() + "," + consulta.getStatus().getStatusDaConsulta();
 				registrarNoArquivo.newLine();
 				registrarNoArquivo.write(registrarConsulta);
 				System.out.println("*** Consulta registrada com sucesso! ***");

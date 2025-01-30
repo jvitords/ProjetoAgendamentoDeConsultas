@@ -3,9 +3,9 @@ package entities;
 public class Paciente {
 
 		private String nome;
-		private int cpf; // somente os 6 primeiros numeros
+		private Long cpf; // somente os 6 primeiros numeros
 		
-		public Paciente(String nomeString, Integer cpfInteger) {
+		public Paciente(String nomeString, Long cpfInteger) {
 			this.nome = nomeString;
 			this.cpf = cpfInteger;
 		}
@@ -18,11 +18,11 @@ public class Paciente {
 			this.nome = nomeString;
 		}
 
-		public Integer getCpf() {
+		public Long getCpf() {
 			return cpf;
 		}
 
-		public void setCpf(Integer cpfInteger) {
+		public void setCpf(Long cpfInteger) {
 			this.cpf = cpfInteger;
 		}
 		

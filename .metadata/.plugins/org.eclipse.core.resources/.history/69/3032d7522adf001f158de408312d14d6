@@ -1,0 +1,123 @@
+package service;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+import entities.Agenda;
+import entities.Consulta;
+import entities.Status;
+
+public class Atendimento {
+	
+	private static String caminhoDoArquivo = "C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt";
+	
+	public static void atenderConsulta() { // método para atender a consulta(faz a troca do status p/ "concluido")
+		
+		List<Consulta> lista = FiltrosEOrdenacao.filtrarConsultasQueDevemSerAtendidas();
+		
+		Scanner scanner = new Scanner(System.in);
+		DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		int i = 1;
+		System.out.println("=== ATENDER CONSULTA ===\n");
+		for(Consulta c : lista) {
+			System.out.println(i + "- " + c.getPaciente().getNome() + ", " + c.getProcedimento() + " - " + c.getData().format(formatoDaData) + " - " + c.getTipoDoCliente().getTipo());
+			i++;
+		}
+		//lista.forEach(c -> System.out.println(i + "- " + c.getPaciente().getNome() + ", " + c.getProcedimento() + " - " + c.getData().format(formatoDaData) + " - " + c.getTipoDoCliente().getTipo()));
+		System.out.print("Qual consulta deseja atender: ");
+		int escolha = scanner.nextInt() - 1;
+		Consulta consulta = lista.get(escolha);
+		
+		
+		try (BufferedReader arquivo = new BufferedReader(new FileReader("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt"))){
+			// receber o arquivo e add informações em uma lista
+			List<String> listaDeConsultas = new ArrayList<String>();
+			List<String> listaDeConsultasAtualizada = new ArrayList<String>();
+
+			String lerLinha = arquivo.readLine();
+			while (lerLinha != null) {
+				listaDeConsultas.add(lerLinha);
+				lerLinha = arquivo.readLine();
+			}
+			
+			// encontrar linha a ser reescrita e atualizar o status dela
+			for(String c : listaDeConsultas) {
+				if(c.contains(Long.toString(consulta.getPaciente().getCpf()))) {
+					String [] dividirInformacoesDaConsulta = c.split(",");
+					dividirInformacoesDaConsulta[6] = "Concluido";
+					String novaLinha = String.join(",", dividirInformacoesDaConsulta);
+					listaDeConsultasAtualizada.add(novaLinha);
+				}
+				else {
+					listaDeConsultasAtualizada.add(c);
+				}
+			}
+			
+			// reescrever as informações da consulta no arquivo txt
+			Files.write(Paths.get(caminhoDoArquivo), listaDeConsultasAtualizada);
+			System.out.println("Consulta concluida com sucesso!\n\n");
+		} 
+		catch (Exception exception) {
+			System.out.println("Erro ao trocar o status da consulta: " + exception);
+		}
+	}
+	
+	public static void cancelarConsulta() {
+		
+		List<Consulta> lista = FiltrosEOrdenacao.filtrarConsultasQueDevemSerAtendidas();
+		
+		Scanner scanner = new Scanner(System.in);
+		DateTimeFormatter formatoDaData = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		int i = 1;
+		System.out.println("=== CANCELAR CONSULTA ===\n");
+		for(Consulta c : lista) {
+			System.out.println(i + "- " + c.getPaciente().getNome() + ", " + c.getProcedimento() + " - " + c.getData().format(formatoDaData) + " - " + c.getTipoDoCliente().getTipo());
+			i++;
+		}
+		//lista.forEach(c -> System.out.println(i + "- " + c.getPaciente().getNome() + ", " + c.getProcedimento() + " - " + c.getData().format(formatoDaData) + " - " + c.getTipoDoCliente().getTipo()));
+		System.out.print("Qual consulta deseja cancelar: ");
+		int escolha = scanner.nextInt() - 1;
+		Consulta consulta = lista.get(escolha);
+		
+		
+		try (BufferedReader arquivo = new BufferedReader(new FileReader(caminhoDoArquivo))){
+			// receber o arquivo e add informações em uma lista
+			List<String> listaDeConsultas = new ArrayList<String>();
+			List<String> listaDeConsultasAtualizada = new ArrayList<String>();
+
+			String lerLinha = arquivo.readLine();
+			while (lerLinha != null) {
+				listaDeConsultas.add(lerLinha);
+				lerLinha = arquivo.readLine();
+			}
+			
+			// encontrar linha a ser reescrita e atualizar o status dela
+			for(String c : listaDeConsultas) {
+				if(c.contains(Integer.toString(consulta.getPaciente().getCpf()))) {
+					String [] dividirInformacoesDaConsulta = c.split(",");
+					dividirInformacoesDaConsulta[6] = "Cancelado";
+					String novaLinha = String.join(",", dividirInformacoesDaConsulta);
+					listaDeConsultasAtualizada.add(novaLinha);
+				}
+				else {
+					listaDeConsultasAtualizada.add(c);
+				}
+			}
+			
+			// reescrever as informações da consulta no arquivo txt
+			Files.write(Paths.get("C:\\Users\\JoãoVitorDuarteSanto\\Documents\\Estudos\\ProjetoAgendamento\\ProjetoAgendamentoDeConsultas\\Agendamentos.txt"), listaDeConsultasAtualizada);
+			System.out.println("Consulta cancelada com sucesso!\n\n");
+		} 
+		catch (Exception exception) {
+			System.out.println("Erro ao trocar o status da consulta: " + exception);
+		}
+	}
+}

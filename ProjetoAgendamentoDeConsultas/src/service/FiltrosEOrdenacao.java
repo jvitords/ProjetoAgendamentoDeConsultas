@@ -39,6 +39,12 @@ public class FiltrosEOrdenacao {
 		return listaFiltrada;
 	}
 	
+	public static List<Consulta> filtrarConsultasCanceladas() { // filtrar consultas com status de "concluida"
+		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
+		List<Consulta> listaFiltrada = lista.stream().filter(c -> c.getStatus() == Status.CANCELADO).collect(Collectors.toList());
+		return listaFiltrada;
+	}
+	
 	public static Consulta filtrarPeloCPF(int cpfDoPaciente) { // filtrar a consulta pelo cpf do paciente
 		
 		List<Consulta> lista = Agenda.mostrarTodasAsConsultas();
